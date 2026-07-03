@@ -1,0 +1,7 @@
+model: Qwen/Qwen2.5-0.5B-Instruct
+max_model_len: 4096
+max_num_seqs: 64
+max_num_batched_tokens: 4096
+gpu_memory_utilization: 0.85
+dtype: auto
+

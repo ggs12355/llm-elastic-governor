@@ -1,0 +1,20 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: vllm-qwen-keda-prometheus
+  namespace: llm-serving
+spec:
+  scaleTargetRef:
+    name: vllm-qwen
+  minReplicaCount: 1
+  maxReplicaCount: 4
+  cooldownPeriod: 120
+  pollingInterval: 15
+  triggers:
+    - type: prometheus
+      metadata:
+        serverAddress: http://prometheus.monitoring.svc:9090
+        metricName: vllm_waiting_requests
+        threshold: "8"
+        query: sum(vllm:num_requests_waiting)
+

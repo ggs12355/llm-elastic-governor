@@ -1,0 +1,9 @@
+requests>=2.31
+PyYAML>=6.0
+matplotlib>=3.8
+numpy>=1.26
+kubernetes>=29.0
+prometheus-client>=0.20
+pytest>=8.0
+ruff>=0.5
+

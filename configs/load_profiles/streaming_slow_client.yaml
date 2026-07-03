@@ -1,0 +1,16 @@
+name: streaming-slow-client
+duration_seconds: 90
+concurrency: 16
+request_rate: 1.5
+timeout_seconds: 240
+seed: 47
+tenants: [tenant-a, tenant-b]
+prompt_templates:
+  - "Request {index} from {tenant_id}: generate a structured incident analysis for LLM serving."
+output_tokens: [512, 768]
+long_prompt_tokens: 1024
+long_context_ratio: 0.15
+burst_after_seconds:
+burst_rate_multiplier: 1.0
+streaming: true
+

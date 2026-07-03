@@ -1,0 +1,35 @@
+{
+  "title": "LLM Elastic Governor",
+  "timezone": "browser",
+  "schemaVersion": 39,
+  "version": 1,
+  "panels": [
+    {
+      "type": "timeseries",
+      "title": "vLLM Waiting / Running Requests",
+      "targets": [
+        {"expr": "sum(vllm:num_requests_waiting)", "legendFormat": "waiting"},
+        {"expr": "sum(vllm:num_requests_running)", "legendFormat": "running"}
+      ],
+      "gridPos": {"x": 0, "y": 0, "w": 12, "h": 8}
+    },
+    {
+      "type": "timeseries",
+      "title": "GPU Memory Ratio",
+      "targets": [
+        {"expr": "avg(DCGM_FI_DEV_FB_USED / (DCGM_FI_DEV_FB_USED + DCGM_FI_DEV_FB_FREE))", "legendFormat": "memory_ratio"}
+      ],
+      "gridPos": {"x": 12, "y": 0, "w": 12, "h": 8}
+    },
+    {
+      "type": "timeseries",
+      "title": "TTFT / TPOT p99",
+      "targets": [
+        {"expr": "histogram_quantile(0.99, sum(rate(vllm:time_to_first_token_seconds_bucket[1m])) by (le))", "legendFormat": "ttft_p99"},
+        {"expr": "histogram_quantile(0.99, sum(rate(vllm:time_per_output_token_seconds_bucket[1m])) by (le))", "legendFormat": "tpot_p99"}
+      ],
+      "gridPos": {"x": 0, "y": 8, "w": 24, "h": 8}
+    }
+  ]
+}
+

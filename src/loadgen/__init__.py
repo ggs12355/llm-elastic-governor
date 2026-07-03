@@ -1,0 +1,2 @@
+"""OpenAI-compatible load generator."""
+

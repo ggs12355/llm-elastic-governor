@@ -1,0 +1,12 @@
+seed: 19
+duration: 600
+total_gpus: 12
+workloads: 120
+gang_ratio: 0.25
+borrowing: true
+preemption: true
+quotas:
+  team-a: 4
+  team-b: 4
+  team-c: 4
+

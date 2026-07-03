@@ -1,0 +1,17 @@
+name: steady-short
+duration_seconds: 60
+concurrency: 8
+request_rate: 2.0
+timeout_seconds: 120
+seed: 42
+tenants: [tenant-a, tenant-b]
+prompt_templates:
+  - "Answer briefly. Request {index} from {tenant_id}: explain Kubernetes scheduling in one paragraph."
+  - "Answer briefly. Request {index} from {tenant_id}: summarize vLLM continuous batching."
+output_tokens: [64, 96, 128]
+long_prompt_tokens: 512
+long_context_ratio: 0.0
+burst_after_seconds:
+burst_rate_multiplier: 1.0
+streaming: true
+

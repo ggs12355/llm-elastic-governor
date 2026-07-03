@@ -1,0 +1,17 @@
+name: burst
+duration_seconds: 120
+concurrency: 32
+request_rate: 2.0
+timeout_seconds: 180
+seed: 43
+tenants: [tenant-a, tenant-b, tenant-c]
+prompt_templates:
+  - "Request {index} from {tenant_id}: give a concise explanation of AI inference SLOs."
+  - "Request {index} from {tenant_id}: compare prefill and decode stages."
+output_tokens: [96, 128, 192]
+long_prompt_tokens: 1024
+long_context_ratio: 0.05
+burst_after_seconds: 30
+burst_rate_multiplier: 5.0
+streaming: true
+

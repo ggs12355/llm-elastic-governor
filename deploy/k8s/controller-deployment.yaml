@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: llm-elastic-controller
+  namespace: llm-serving
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: llm-elastic-controller
+  template:
+    metadata:
+      labels:
+        app: llm-elastic-controller
+    spec:
+      serviceAccountName: llm-elastic-controller
+      containers:
+        - name: controller
+          image: llm-elastic-controller:latest
+          imagePullPolicy: IfNotPresent
+          args:
+            - --config
+            - configs/controller/policy_default.yaml
+            - --prometheus-url
+            - http://prometheus.monitoring.svc:9090
+            - --mode
+            - dry-run
+          env:
+            - name: PYTHONUNBUFFERED
+              value: "1"
+

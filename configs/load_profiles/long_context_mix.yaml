@@ -1,0 +1,16 @@
+name: long-context-mix
+duration_seconds: 120
+concurrency: 24
+request_rate: 1.5
+timeout_seconds: 240
+seed: 44
+tenants: [tenant-a, tenant-b]
+prompt_templates:
+  - "Request {index} from {tenant_id}: use the context and produce an operational summary."
+output_tokens: [128, 192, 256]
+long_prompt_tokens: 4096
+long_context_ratio: 0.30
+burst_after_seconds:
+burst_rate_multiplier: 1.0
+streaming: true
+

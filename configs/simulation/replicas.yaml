@@ -1,0 +1,15 @@
+seed: 7
+duration_seconds: 300
+request_rate: 4.0
+initial_replicas: 1
+max_replicas: 4
+cold_start_seconds: 90
+scale_queue_threshold: 20
+long_context_ratio: 0.18
+prefix_cardinality: 30
+policies:
+  - round-robin
+  - least-queue
+  - tenant-sticky
+  - prefix-aware
+  - prefix-aware-balanced

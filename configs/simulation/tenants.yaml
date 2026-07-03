@@ -1,0 +1,23 @@
+seed: 23
+requests: 1200
+request_rate: 10
+long_context_ratio: 0.22
+long_output_ratio: 0.20
+low_priority_threshold: 1
+tenants:
+  gold:
+    priority: 10
+    requests_per_minute: 120
+    tokens_per_minute: 120000
+    max_context_tokens: 12000
+  silver:
+    priority: 5
+    requests_per_minute: 80
+    tokens_per_minute: 70000
+    max_context_tokens: 8192
+  bronze:
+    priority: 1
+    requests_per_minute: 60
+    tokens_per_minute: 40000
+    max_context_tokens: 4096
+

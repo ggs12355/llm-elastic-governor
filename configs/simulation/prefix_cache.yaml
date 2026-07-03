@@ -1,0 +1,14 @@
+seed: 3
+replicas: 4
+requests: 1200
+request_rate: 8.0
+cache_capacity: 64
+prefix_cardinality: 80
+hot_prefixes: 10
+hot_prefix_ratio: 0.72
+policies:
+  - round-robin
+  - least-queue
+  - prefix-aware
+  - prefix-aware-balanced
+

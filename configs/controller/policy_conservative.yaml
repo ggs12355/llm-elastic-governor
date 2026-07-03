@@ -1,0 +1,26 @@
+namespace: llm-serving
+deployment: vllm-qwen
+mode: dry-run
+min_replicas: 1
+max_replicas: 3
+scale_step: 1
+window_seconds: 90
+cooldown_seconds: 180
+scale_in_cooldown_seconds: 600
+hysteresis_windows: 3
+loop_interval_seconds: 20
+thresholds:
+  queue_time_p99_high: 3.0
+  ttft_p99_high: 4.0
+  tpot_p99_high: 0.35
+  e2e_latency_p99_high: 30.0
+  waiting_requests_high: 12
+  gpu_memory_ratio_high: 0.92
+  gpu_memory_ratio_critical: 0.97
+  gpu_utilization_low: 0.30
+  gpu_utilization_high: 0.90
+  error_rate_high: 0.05
+  timeout_rate_high: 0.03
+  long_context_ratio_high: 0.35
+  tenant_overload_ratio_high: 0.40
+
