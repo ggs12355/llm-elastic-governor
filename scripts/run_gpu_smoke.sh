@@ -6,7 +6,12 @@ MODEL="${MODEL:-Qwen/Qwen2.5-1.5B-Instruct}"
 
 mkdir -p results/gpu_smoke
 
-curl -sS "$BASE_URL/v1/models" | jq .
+if command -v jq >/dev/null 2>&1; then
+  curl -sS "$BASE_URL/v1/models" | jq .
+else
+  curl -sS "$BASE_URL/v1/models"
+  echo
+fi
 
 python -m metrics.gpu_collector \
   --interval 2 \
@@ -25,4 +30,3 @@ wait "$GPU_COLLECTOR_PID" || true
 python -m loadgen.analyze \
   --input results/gpu_smoke/requests.jsonl \
   --output-dir results/gpu_smoke/analysis
-

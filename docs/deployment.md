@@ -4,6 +4,8 @@
 
 推荐 Ubuntu 22.04、NVIDIA Driver、CUDA runtime、Docker、NVIDIA Container Toolkit。
 
+如果云 GPU 实例没有 Docker，也可以先用 Python 环境验证 vLLM 服务。本项目 2026-07-03 在 RTX 4090 24 GB 上使用 Python 路径完成过 0.5B 和 1.5B smoke。
+
 检查 GPU：
 
 ```bash
@@ -28,10 +30,13 @@ python -m vllm.entrypoints.openai.api_server \
   --model Qwen/Qwen2.5-1.5B-Instruct \
   --host 0.0.0.0 \
   --port 8000 \
-  --max-model-len 8192 \
-  --gpu-memory-utilization 0.90 \
-  --enable-prefix-caching
+  --max-model-len 2048 \
+  --gpu-memory-utilization 0.60 \
+  --max-num-seqs 16 \
+  --enforce-eager
 ```
+
+说明：更大的 `max_model_len`、`max_num_seqs` 和 `gpu_memory_utilization` 适合做调参实验，但不一定更稳定。先用保守配置跑通，再逐步放大参数观察 TTFT、TPOT、p99 和显存水位。
 
 验证 API：
 
@@ -93,4 +98,3 @@ python -m controller.main \
   --prometheus-url http://127.0.0.1:9090 \
   --mode active
 ```
-

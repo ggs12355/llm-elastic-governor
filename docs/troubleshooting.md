@@ -11,6 +11,21 @@
 5. 换 1.5B/0.5B 模型验证链路。
 6. 尝试 AWQ/GPTQ 量化模型。
 
+RTX 4090 24 GB 上的 1.5B 保守启动参考：
+
+```bash
+python -m vllm.entrypoints.openai.api_server \
+  --model Qwen/Qwen2.5-1.5B-Instruct \
+  --host 0.0.0.0 \
+  --port 8000 \
+  --max-model-len 2048 \
+  --gpu-memory-utilization 0.60 \
+  --max-num-seqs 16 \
+  --enforce-eager
+```
+
+如果安装了过新的 vLLM/torch CUDA wheel，可能出现驱动和 CUDA wheel 栈不匹配。实测可用组合：`vllm==0.10.2`、`torch==2.8.0+cu128`、`transformers==4.55.2`。
+
 ## `/v1/models` 不通
 
 检查：
@@ -63,4 +78,3 @@ python -m metrics.discovery --contains vllm
 - 是否 streaming slow client。
 - 是否显存压力或 KV cache preemption。
 - batch 参数是否太保守或太激进。
-

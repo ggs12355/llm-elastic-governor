@@ -21,6 +21,8 @@
 
 > 在近似 QPS 下，长 prompt 明显抬高 TTFT，长 output 拉长 TPOT 和总 latency，说明 token-level 指标比 QPS 更接近 LLM 推理成本。
 
+当前验证快照：`steady_short` 已在 Qwen2.5-0.5B-Instruct 和 Qwen2.5-1.5B-Instruct 上跑通。长上下文、长输出、burst、多租户混部的真实 GPU profile 建议作为第二轮扩展。
+
 ## 实验二：vLLM 参数调优
 
 变量：
@@ -33,6 +35,8 @@
 结论模板：
 
 > 参数调大可能提高吞吐，但会带来更高 queue time、TTFT 或显存风险。服务参数需要按 SLO 和 workload 分布调优。
+
+当前验证快照：1.5B 初始使用更大上下文和更高显存比例时没有快速进入可服务状态；改为 `max_model_len=2048`、`gpu_memory_utilization=0.60`、`max_num_seqs=16` 后稳定通过 120 请求 smoke。
 
 ## 实验三：长短请求混部
 
@@ -78,4 +82,3 @@ make sim-tenant-quota
 ```
 
 所有模拟器输出到 `results/`，包含 summary 和部分图表。
-

@@ -37,17 +37,18 @@ python -m controller.main --config configs/controller/policy_default.yaml --metr
 
 ## 真实 GPU 路径
 
-推荐先在 GPU 云实例上跑 Docker/vLLM，再接 Kubernetes：
+推荐先在 GPU 云实例上跑 vLLM，再接 Kubernetes。单张 24 GB 4090 上，1.5B 模型可以先用保守参数稳定跑通链路：
 
 ```bash
-pip install "vllm>=0.6.0"
+pip install "vllm==0.10.2"
 python -m vllm.entrypoints.openai.api_server \
   --model Qwen/Qwen2.5-1.5B-Instruct \
   --host 0.0.0.0 \
   --port 8000 \
-  --max-model-len 8192 \
-  --gpu-memory-utilization 0.90 \
-  --enable-prefix-caching
+  --max-model-len 2048 \
+  --gpu-memory-utilization 0.60 \
+  --max-num-seqs 16 \
+  --enforce-eager
 ```
 
 验证：
@@ -61,6 +62,18 @@ python -m loadgen.runner \
   --output results/steady_short.jsonl
 python -m loadgen.analyze --input results/steady_short.jsonl --output-dir results/analysis
 ```
+
+## 验证快照
+
+2026-07-03 在 RTX 4090 24 GB 云 GPU 上完成了第一版验证：
+
+- 单元测试：`14 passed`。
+- Controller dry-run：覆盖 NOOP、显存压力告警、SCALE_OUT、cooldown/HPA lag。
+- 模拟器：多副本、prefix cache、topology、queue、tenant quota 全部跑通。
+- 真实 vLLM：Qwen2.5-0.5B-Instruct 和 Qwen2.5-1.5B-Instruct 均完成 OpenAI-compatible API smoke/loadgen。
+- 1.5B steady_short：120/120 成功，错误率 0，约 1.99 req/s，generation 154.92 tokens/s，latency p99 约 2.00 s，TTFT p99 约 56.61 ms。
+
+完整结果见 [docs/validation_report.md](docs/validation_report.md)。
 
 ## 仓库结构
 
@@ -129,4 +142,3 @@ git remote add origin git@github.com:<your-name>/llm-elastic-governor.git
 git branch -M main
 git push -u origin main
 ```
-

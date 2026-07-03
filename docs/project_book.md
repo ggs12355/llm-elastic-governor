@@ -59,3 +59,14 @@
 - GPU 机器上能启动 vLLM 并运行 `scripts/run_gpu_smoke.sh`。
 - docs 中包含架构、部署、指标、controller、实验、模拟器、排错、局限、面试和简历材料。
 
+## 当前验证状态
+
+2026-07-03 已在 RTX 4090 24 GB 云 GPU 上完成第一版验证：
+
+- 单元测试通过：`14 passed`。
+- Controller dry-run 触发 NOOP、显存压力告警、SCALE_OUT 和 cooldown/HPA lag。
+- 5 个模拟器均已输出结果。
+- vLLM 真实推理已完成 Qwen2.5-0.5B-Instruct 和 Qwen2.5-1.5B-Instruct smoke/loadgen。
+- Kubernetes、Prometheus、Grafana、HPA/KEDA 仍为配置级或半真实验证，尚未在真实集群完成全链路部署。
+
+详细指标见 `docs/validation_report.md`。
