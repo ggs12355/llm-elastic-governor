@@ -110,18 +110,15 @@ class Decision:
        
         
         
-        
-请求压测产生 RequestMetrics
-        ↓
-指标分析得到 TTFT / TPOT / latency / tokens/s
-        ↓
-Prometheus / mock 采集系统状态，形成 ControllerMetrics
-        ↓
-SLOPolicy 根据 ControllerMetrics 做决策
-        ↓
-输出 Decision
-        ↓
-dry-run 写日志，active 模式 patch Kubernetes Deployment
+
+
+
+
+
+
+
+
+
 
 """# Python 语法笔记：类型标注、数据类、枚举、对象、属性方法
 
